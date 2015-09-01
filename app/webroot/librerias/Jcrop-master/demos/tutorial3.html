@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Aspect Ratio with Preview Pane | Jcrop Demo</title>
+  <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+
+<script src="../js/jquery.min.js"></script>
+<script src="../js/jquery.Jcrop.js"></script>
+
+<script src="../js/canvas2image.js"></script>
+<script src="../js/html2canvas.js"></script>
+
+<script type="text/javascript">
+
+//Crea los paneles JCrop para la selección del avatar
+function recreate ()
+{
+
+  jQuery(function($){
+
+    // Create variables (in this scope) to hold the API and image size
+    var jcrop_api,
+        boundx,
+        boundy,
+
+        // Grab some information about the preview pane
+        $preview = $('#preview-pane'),
+        $pcnt = $('#preview-pane .preview-container'),
+        $pimg = $('#preview-pane .preview-container img'),
+
+        xsize = $pcnt.width(),
+        ysize = $pcnt.height();
+    
+    $('#target').Jcrop({
+      onChange: updatePreview,
+      onSelect: updatePreview,
+      aspectRatio: xsize / ysize
+    },
+	
+	function()
+	{
+      // Use the API to get the real image size
+      var bounds = this.getBounds();
+      boundx = bounds[0];
+      boundy = bounds[1];
+      // Store the API in the jcrop_api variable
+      jcrop_api = this;
+
+      // Move the preview into the jcrop container for css positioning
+      $preview.appendTo(jcrop_api.ui.holder);
+    });
+
+    function updatePreview(c)
+    {
+      if (parseInt(c.w) > 0)
+      {
+        var rx = xsize / c.w;
+        var ry = ysize / c.h;
+
+        $pimg.css({
+          width: Math.round(rx * boundx) + 'px',
+          height: Math.round(ry * boundy) + 'px',
+          marginLeft: '-' + Math.round(rx * c.x) + 'px',
+          marginTop: '-' + Math.round(ry * c.y) + 'px'
+        });
+      }
+    };
+
+  });
+
+}//Fin recreate
+
+
+$(function() { 
+    $("#btnSave").click(function() { 
+        html2canvas($("#preview-pane"), 
+		{
+            onrendered: function(canvas) 
+			{
+                theCanvas = canvas;
+				//1 Creamos el objeto canvas
+                //document.body.appendChild(canvas);
+
+                // Convert and download as image 
+                //Canvas2Image.saveAsPNG(canvas); 
+				
+				//2 Mostramos la imagen en el objeto canvas
+                //$("#img-out").append(canvas);
+				
+				data_uri=canvas.toDataURL("image/jpg");      
+				//2 Mostramos la imagen en el div especificado
+				document.getElementById('mifoto').innerHTML = '<img src="'+data_uri+'"/ >';				
+
+                // Clean up 
+                //document.body.removeChild(canvas);
+            }
+        });
+    });
+}); 
+
+
+</script>
+<link rel="stylesheet" href="../css/jquery.Jcrop.css" type="text/css" />
+<style type="text/css">
+
+/* Apply these styles only when #preview-pane has
+   been placed within the Jcrop widget */
+.jcrop-holder #preview-pane {
+  display: block;
+  position: absolute;
+  z-index: 2000;
+  top: 10px;
+  right: -280px;
+  padding: 6px;
+  border: 1px rgba(0,0,0,.4) solid;
+  background-color: white;
+
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+
+  -webkit-box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.2);
+  box-shadow: 1px 1px 5px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* The Javascript code will set the aspect ratio of the crop
+   area based on the size of the thumbnail preview,
+   specified here */
+#preview-pane .preview-container {
+  width: 250px;
+  height: 250px;
+  overflow: hidden;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="container">
+<div class="row">
+<div class="span12">
+<div class="jc-demo-box">
+
+<div class="page-header">
+    <ul class="breadcrumb first">
+      <li><a href="../index.html">Jcrop</a> <span class="divider">/</span></li>
+      <li><a href="../index.html">Demos</a> <span class="divider">/</span></li>
+      <li class="active">Aspect Ratio with Preview Pane</li>
+    </ul>
+	<h1>Aspect Ratio with Preview Pane</h1>
+</div><!-- Fin page Header-->
+
+
+
+
+  <div id="originalphoto">
+  <img src="demo_files/sago.jpg" id="target" alt="Imagen Principal" />
+  </div>
+
+  <div id="preview-pane">
+    <div class="preview-container">
+      <img src="demo_files/sago.jpg" class="jcrop-preview" alt="Vista previa" id="thumb"/>
+    </div>
+  </div>
+
+  <div class="description">
+    <b>An example implementing a preview pane.</b>Obviously the most visual demo...   
+  </div>      
+<br/>
+<input type="button" id="btnSave" value="Save PNG"/>
+<input type="file" class="btn btn-primary" onchange="loadImageFile();" id="imageInput">
+
+<div id="img-out"></div>
+<div id="mifoto"></div>
+  
+
+  </div>
+<div class="clearfix"></div>
+
+</div>
+</div>
+</div>
+</div>
+
+
+<script type="text/javascript">
+var loadImageFile = (function () 
+{
+	if (window.FileReader) 
+	{
+		var	oPreviewImg = null, oFReader = new window.FileReader(),
+			rFilter = /^(?:image\/bmp|image\/cis\-cod|image\/gif|image\/ief|image\/jpeg|image\/jpeg|image\/jpeg|image\/pipeg|image\/png|image\/svg\+xml|image\/tiff|image\/x\-cmu\-raster|image\/x\-cmx|image\/x\-icon|image\/x\-portable\-anymap|image\/x\-portable\-bitmap|image\/x\-portable\-graymap|image\/x\-portable\-pixmap|image\/x\-rgb|image\/x\-xbitmap|image\/x\-xpixmap|image\/x\-xwindowdump)$/i;
+
+		oFReader.onload = function (oFREvent) 
+		{
+			
+			/*
+			if (!oPreviewImg) 
+			{
+				var newPreview = document.getElementById("mi_foto");
+
+				oPreviewImg = new Image();
+				oPreviewImg.style.width = (newPreview.offsetWidth).toString() + "px";
+				oPreviewImg.style.height = (newPreview.offsetHeight).toString() + "px";
+				newPreview.appendChild(oPreviewImg);
+
+			}
+			
+			oPreviewImg.src = oFREvent.target.result;
+			*/
+			var data_uri = oFREvent.target.result; 						
+			//document.getElementById('target').innerHTML = '<img src="'+data_uri+'"/ id="target" alt="Imagen Principal">';	
+			//document.getElementById('thumb').innerHTML = '<img src="'+data_uri+'"/ class="jcrop-preview" alt="Vista previa" id="thumb">';				
+			document.getElementById("thumb").src = data_uri;//canvas.toDataURL();
+			document.getElementById("target").src = data_uri;			
+			recreate();
+						
+    		//var raw_image_data = data_uri.replace(/^data\:image\/\w+\;base64\,/, '');
+			//document.getElementById('UserDataAvatar').value = raw_image_data;			
+			
+		};
+
+		return function () 
+		{
+			var aFiles = document.getElementById("imageInput").files;
+			if (aFiles.length === 0) { return; }
+			if (!rFilter.test(aFiles[0].type)) { alert("You must select a valid image file!"); return; }
+			oFReader.readAsDataURL(aFiles[0]);
+		}
+
+	}
+	if (navigator.appName === "Microsoft Internet Explorer") 
+	{
+		return function () 
+		{
+			document.getElementById("mi_foto").filters.item("DXImageTransform.Microsoft.AlphaImageLoader").src = document.getElementById("imageInput").value;
+
+		}
+	}
+})();
+</script> 
+
+</body>
+</html>
+

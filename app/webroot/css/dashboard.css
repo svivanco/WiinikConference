@@ -1,0 +1,93 @@
+.info-box {
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
+
+.text-white {
+    color: #ffffff !important;
+}
+
+
+.info-box .info-icon {
+    display: inline-block;
+    padding: 10px;
+    text-align: center;
+    width: 28%;
+}
+
+.bg-info:hover, .bg-info-dark {
+    background: none repeat scroll 0 0 #29a2d7 !important;
+}
+
+.bg-success:hover, .bg-success-dark {
+    background: none repeat scroll 0 0 #77af3b !important;
+}
+
+
+.bg-warning:hover, .bg-warning-dark {
+    background: none repeat scroll 0 0 #f79219 !important;
+}
+
+.info-box .info-details {
+    display: inline-block;
+    padding-left: 5%;
+    width: 70%;
+}
+
+
+.info-box .info-details .pull-right {
+    margin-right: 5px;
+}
+
+.bg-success {
+    background: none repeat scroll 0 0 #90c657 !important;
+}
+
+.bg-warning {
+    background: none repeat scroll 0 0 #f9a94a !important;
+}
+
+.bg-info {
+    background: none repeat scroll 0 0 #54b5df !important;
+}
+
+
+
+blockquote {
+    border-left-color: #e28913;
+	font-family:Tahoma, Geneva, sans-serif;
+}
+
+blockquote p {
+	font-size:14px;
+}
+
+.panel.terques-chart {
+    background: none repeat scroll 0 0 #41cac0;
+    color: #fff;
+}
+
+.panel.terques-chart .chart-tittle {
+    background: none repeat scroll 0 0 #39b7ac;
+    border-radius: 0 0 4px 4px;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: normal;
+    padding: 15px;
+    width: 100%;
+}
+
+.panel.green-chart {
+    background: none repeat scroll 0 0 #a9d96c;
+    color: #fff;
+}
+
+.panel.green-chart .chart-tittle {
+    background: none repeat scroll 0 0 #99c262;
+    border-radius: 0 0 4px 4px;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: normal;
+    padding: 15px;
+    width: 100%;
+}
